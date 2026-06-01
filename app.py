@@ -1,4 +1,7 @@
-Python
 import streamlit as st
-st.title("Ma première application Streamlit")
-st.write("Bonjour !")
+
+# Titre de l'application
+st.title("Stop au Gaspillage Alimentaire ! 🍏")
+st.subheader("Projet ODD - Collège du Vaucluse (700 demi-pensionnaires)")
+
+st.write("Bienvenue sur notre application de suivi des déchets de la cantine.")
