@@ -1,51 +1,68 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f9f4;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Cantine - Notre Collège du Vaucluse</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-header {
-    background-color: #2e7d32; /* Vert écologie */
-    color: white;
-    text-align: center;
-    padding: 2rem;
-}
+    <header>
+        <h1>Stop au Gaspillage Alimentaire !</h1>
+        <p>Projet ODD au collège - 700 Demi-pensionnaires</p>
+    </header>
 
-main {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
+    <main>
+        <section id="introduction">
+            <h2>Pourquoi ce projet ?</h2>
+            <p>Nous mesurons nos déchets pour agir face à l'ODD 12 (Consommation responsable). Voici les résultats de nos pesées.</p>
+        </section>
 
-h2 {
-    color: #1b5e20;
-    border-bottom: 2px solid #a5d6a7;
-    padding-bottom: 0.5rem;
-}
+        <section id="resultats">
+            <h2>Les Pesées de la Semaine</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Catégorie</th>
+                        <th>Poids total (kg)</th>
+                        <th>Impact ODD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Déchets alimentaires</td>
+                        <td id="poids-alimentaire">12.5</td>
+                        <td>À composter</td>
+                    </tr>
+                    <tr>
+                        <td>Pain</td>
+                        <td id="poids-pain">4.2</td>
+                        <td>Gaspillage direct !</td>
+                    </tr>
+                    <tr>
+                        <td>Fruits entamés</td>
+                        <td id="poids-fruits">3.1</td>
+                        <td>À mieux gérer</td>
+                    </tr>
+                    <tr>
+                        <td>Serviettes en papier</td>
+                        <td id="poids-serviettes">1.8</td>
+                        <td>Ressources jetées</td>
+                    </tr>
+                    <tr>
+                        <td>Emballages</td>
+                        <td id="poids-emballages">2.5</td>
+                        <td>À recycler</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-}
+    <footer>
+        <p>© 2026 - Club DD du Collège</p>
+    </footer>
 
-th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-th {
-    background-color: #4caf50;
-    color: white;
-}
-
-tr:hover {
-    background-color: #f1f8e9;
-}
+</body>
+</html>
