@@ -1,88 +1,82 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Gestion des Déchets Cantine</title>
+    <meta charset="UTF-8">
+    <title>Déchèts Cantine Collège</title>
 </head>
-<body bgcolor="#F0F4F8" text="#2C3E50" link="#2E7D32">
+<body>
 
-  <center>
-    <h1 style="color: #1B5E20; font-family: sans-serif;">🌿 ODD 12 - Cantine Éco-Responsable</h1>
-    <p style="font-family: sans-serif; background-color: #E8F5E9; color: #2E7D32; padding: 5px; display: inline-block; border-radius: 10px;">
-      <b>Collège du Vaucluse — 700 Demi-pensionnaires</b>
-    </p>
-  </center>
+    <center>
+        <h1>ODD 12 : Les Déchets de notre Cantine</h1>
+        <p>Collège du Vaucluse - 700 Demi-pensionnaires</p>
+    </center>
 
-  <br>
+    <hr>
 
-  <table width="100%" border="0" cellspacing="20" cellpadding="0" style="font-family: sans-serif;">
-    <tr>
-      
-      <td width="45%" valign="top" bgcolor="#FFFFFF" style="padding: 20px; border-radius: 12px; border: 1px solid #CFD8DC;">
-        
-        <h2 style="color: #2E7D32; margin-top: 0; border-bottom: 2px solid #E8F5E9; padding-bottom: 10px;">📋 Saisie des Pesées</h2>
-        <p style="font-size: 14px; color: #666;">Indiquez le poids constaté (en kg ou grammes) :</p>
-        
-        <br>
+    <table width="100%" border="0" cellpadding="10">
+        <tr>
 
-        <p><b>🥖 Poubelle à Pain :</b></p>
-        <input type="text" size="30" style="padding: 8px; border: 2px solid #CFD8DC; border-radius: 4px; width: 90%;" placeholder="Ex: 5 kg">
+            <td width="50%" valign="top">
+                
+                <h2>Saisie des données</h2>
+                <p>Écrivez les kilos ou les grammes dans les cases :</p>
 
-        <p><b>🍎 Déchets Alimentaires :</b></p>
-        <input type="text" size="30" style="padding: 8px; border: 2px solid #CFD8DC; border-radius: 4px; width: 90%;" placeholder="Ex: 18.5 kg">
+                <p>🥖 Poubelle à Pain :</p>
+                <input type="text" placeholder="Ex: 4 kg">
 
-        <p><b>📦 Emballages :</b></p>
-        <input type="text" size="30" style="padding: 8px; border: 2px solid #CFD8DC; border-radius: 4px; width: 90%;" placeholder="Ex: 2 kg">
+                <p>🍎 Déchets Alimentaires :</p>
+                <input type="text" placeholder="Ex: 15 kg">
 
-        <p><b>🍏 Fruits Entamés :</b></p>
-        <input type="text" size="30" style="padding: 8px; border: 2px solid #CFD8DC; border-radius: 4px; width: 90%;" placeholder="Ex: 1.2 kg">
+                <p>📦 Emballages :</p>
+                <input type="text" placeholder="Ex: 2 kg">
 
-        <p><b>🧻 Serviettes Papiers :</b></p>
-        <input type="text" size="30" style="padding: 8px; border: 2px solid #CFD8DC; border-radius: 4px; width: 90%;" placeholder="Ex: 400 g">
+                <p>🍏 Fruits Entamés :</p>
+                <input type="text" placeholder="Ex: 1.5 kg">
 
-        <br><br>
-        <input type="button" value="Enregistrer les données" style="background-color: #2E7D32; color: white; padding: 12px; border: none; border-radius: 6px; width: 90%; font-weight: bold; cursor: pointer;">
+                <p>🧻 Serviettes Papiers :</p>
+                <input type="text" placeholder="Ex: 500 g">
 
-      </td>
+                <br><br>
+                <input type="button" value="Valider les chiffres">
 
-      <td width="55%" valign="top" bgcolor="#FFFFFF" style="padding: 20px; border-radius: 12px; border: 1px solid #CFD8DC;">
-        
-        <h2 style="color: #2E7D32; margin-top: 0; border-bottom: 2px solid #E8F5E9; padding-bottom: 10px;">📊 Tableau de Bord</h2>
-        <p style="font-size: 14px; color: #666;">Toutes les données globales de l'établissement seront listées ici :</p>
-        
-        <br>
+            </td>
 
-        <table width="100%" border="1" cellpadding="12" cellspacing="0" bordercolor="#E0E0E0" style="border-collapse: collapse;">
-          <tr bgcolor="#2E7D32">
-            <th><font color="white">Catégorie de déchet</font></th>
-            <th><font color="white">Quantité mesurée</font></th>
-          </tr>
-          <tr>
-            <td><b>🥖 Poubelle à Pain</b></td>
-            <td><em>En attente de saisie...</em></td>
-          </tr>
-          <tr bgcolor="#F9F9F9">
-            <td><b>🍎 Déchets Alimentaires</b></td>
-            <td><em>En attente de saisie...</em></td>
-          </tr>
-          <tr>
-            <td><b>📦 Emballages</b></td>
-            <td><em>En attente de saisie...</em></td>
-          </tr>
-          <tr bgcolor="#F9F9F9">
-            <td><b>🍏 Fruits Entamés</b></td>
-            <td><em>En attente de saisie...</em></td>
-          </tr>
-          <tr>
-            <td><b>🧻 Serviettes Papiers</b></td>
-            <td><em>En attente de saisie...</em></td>
-          </tr>
-        </table>
+            <td width="50%" valign="top">
+                
+                <h2>Tableau des résultats</h2>
+                <p>Toutes les données seront marquées ici :</p>
 
-      </td>
+                <table border="1" width="100%" cellpadding="8">
+                    <tr>
+                        <th>Catégorie</th>
+                        <th>Poids mesuré</th>
+                    </tr>
+                    <tr>
+                        <td>Poubelle à Pain</td>
+                        <td>À remplir à gauche</td>
+                    </tr>
+                    <tr>
+                        <td>Déchets Alimentaires</td>
+                        <td>À remplir à gauche</td>
+                    </tr>
+                    <tr>
+                        <td>Emballages</td>
+                        <td>À remplir à gauche</td>
+                    </tr>
+                    <tr>
+                        <td>Fruits Entamés</td>
+                        <td>À remplir à gauche</td>
+                    </tr>
+                    <tr>
+                        <td>Serviettes Papiers</td>
+                        <td>À remplir à gauche</td>
+                    </tr>
+                </table>
 
-    </tr>
-  </table>
+            </td>
+
+        </tr>
+    </table>
 
 </body>
 </html>
