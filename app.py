@@ -1,12 +1,11 @@
 import streamlit as st
 import pandas as pd
 import datetime
-import plotly.express as px
 
 # 1. Configuration de la page
 st.set_page_config(page_title="Cantine Durable - ODD", page_icon="🍏", layout="wide")
 
-# Image de fond du collège (votre fichier téléversé sur GitHub)
+# Image de fond du collège (votre fichier image téléversé)
 NOM_IMAGE_FOND = "image_4dd0dc.jpg" 
 
 # Injection du CSS pour le fond d'écran et la transparence
@@ -96,20 +95,12 @@ st.markdown("""
 
 total_nourriture = poids_alim + poids_pain + poids_fruits
 
-# Préparation des données - Les noms ici doivent correspondre EXACTEMENT aux clés du dictionnaire de couleurs
+# Préparation des données avec une colonne "Couleur" lue nativement par Streamlit
 df_jour = pd.DataFrame({
     "Catégorie": ["Déchets Alimentaires", "Poubelle à Pain", "Fruits entamés", "Emballages recyclables", "Serviettes en papier"], 
-    "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes]
+    "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes],
+    "Couleur_Baton": ["#FB8C00", "#8D6E63", "#7CB342", "#039BE5", "#8E24AA"] # Orange, Marron, Vert, Bleu, Violet
 })
-
-# Association stricte et explicite des couleurs demandées
-palette_couleurs = {
-    "Déchets Alimentaires": "#FB8C00",      # Orange
-    "Poubelle à Pain": "#8D6E63",           # Marron
-    "Fruits entamés": "#7CB342",            # Vert
-    "Emballages recyclables": "#039BE5",    # Bleu
-    "Serviettes en papier": "#8E24AA"       # Violet
-}
 
 col1, col2 = st.columns([1, 1.2])
 
@@ -121,26 +112,13 @@ with col2:
     st.markdown('<div class="container-card" style="background-color: rgba(255,255,255,0.9); height: 100%;">', unsafe_allow_html=True)
     st.markdown('<h3 style="margin-top:0; color:#37474F; text-align:center;">📈 Visualisation Graphique</h3>', unsafe_allow_html=True)
     
-    # Construction du graphique Plotly en forçant la carte des couleurs discrètes
-    fig = px.bar(
-        df_jour, 
-        x="Catégorie", 
-        y="Poids (kg)", 
-        color="Catégorie", 
-        color_discrete_map=palette_couleurs
+    # Utilisation du graphique natif Streamlit qui attribue les couleurs de la colonne "Couleur_Baton"
+    st.bar_chart(
+        data=df_jour,
+        x="Catégorie",
+        y="Poids (kg)",
+        color="Couleur_Baton"
     )
-    
-    fig.update_layout(
-        showlegend=False, 
-        margin=dict(l=20, r=20, t=10, b=20), 
-        xaxis_title="", 
-        yaxis_title="Poids (en kg)", 
-        height=340, 
-        paper_bgcolor='rgba(0,0,0,0)', 
-        plot_bgcolor='rgba(0,0,0,0)'
-    )
-    
-    st.plotly_chart(fig, use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ==========================================
