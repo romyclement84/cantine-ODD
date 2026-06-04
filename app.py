@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import datetime
+import plotly.express as px  # Importation de Plotly pour verrouiller les couleurs
 
 # 1. Configuration de la page
 st.set_page_config(page_title="Cantine Durable - ODD", page_icon="🍏", layout="wide")
@@ -86,12 +87,20 @@ st.markdown("""
 
 total_nourriture = poids_alim + poids_pain + poids_fruits
 
-# Création du dictionnaire et du DataFrame (Correction de la variable ici !)
+# Données propres pour le graphique
 df_jour = pd.DataFrame({
     "Catégorie": ["Déchets Alimentaires", "Pain", "Fruits Entamés", "Emballages", "Serviettes"], 
-    "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes], 
-    "Couleur": ["#FB8C00", "#8D6E63", "#7CB342", "#039BE5", "#8E24AA"]
+    "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes]
 })
+
+# Dictionnaire strict de correspondance de couleurs pour Plotly
+palette_couleurs = {
+    "Déchets Alimentaires": "#FB8C00",   # Orange
+    "Pain": "#8D6E63",                  # Marron
+    "Fruits Entamés": "#7CB342",        # Vert
+    "Emballages": "#039BE5",            # Bleu
+    "Serviettes": "#8E24AA"             # Violet
+}
 
 col1, col2 = st.columns([1, 1.2])
 
@@ -105,7 +114,27 @@ with col1:
 with col2:
     st.markdown('<div class="container-card" style="background-color: #ffffff; height: 100%;">', unsafe_allow_html=True)
     st.markdown('<h3 style="margin-top:0; color:#37474F; text-align:center;">📈 Visualisation Graphique</h3>', unsafe_allow_html=True)
-    st.bar_chart(data=df_jour, x="Catégorie", y="Poids (kg)", color="Couleur")
+    
+    # Création du graphique Plotly avec assignation STRICTE des couleurs
+    fig = px.bar(
+        df_jour, 
+        x="Catégorie", 
+        y="Poids (kg)", 
+        color="Catégorie", 
+        color_discrete_map=palette_couleurs
+    )
+    
+    # Rendre le graphique joli, épuré et masquer la légende inutile
+    fig.update_layout(
+        showlegend=False,
+        margin=dict(l=20, r=20, t=10, b=20),
+        xaxis_title="",
+        yaxis_title="Poids (en kg)",
+        height=340
+    )
+    
+    # Affichage du graphique Plotly dans Streamlit
+    st.plotly_chart(fig, use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ==========================================
