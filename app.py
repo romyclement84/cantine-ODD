@@ -10,7 +10,7 @@ st.markdown("""
     <style>
     /* Cartes principales */
     .header-card {
-        background: linear-gradient(135deg, #E8F5E9, #C8E6C9); /* Dégradé vert nature */
+        background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
         padding: 20px;
         border-radius: 15px;
         box-shadow: 0 6px 12px rgba(0,0,0,0.1);
@@ -29,16 +29,16 @@ st.markdown("""
     
     /* Carte Rouge Flash pour le Total */
     .total-card {
-        background: linear-gradient(135deg, #FFEBEE, #FFCDD2); /* Dégradé rouge clair */
+        background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
         padding: 25px;
         border-radius: 15px;
-        box-shadow: 0 8px 16px rgba(211, 47, 47, 0.2); /* Ombre teintée rouge */
+        box-shadow: 0 8px 16px rgba(211, 47, 47, 0.2);
         border: 2px solid #EF9A9A;
         text-align: center;
         margin-bottom: 20px;
     }
     
-    /* ---- COULEURS INDIVIDUELLES DES POUBELLES (En relief) ---- */
+    /* ---- COULEURS INDIVIDUELLES DES POUBELLES ---- */
     .poubelle-ligne {
         padding: 14px;
         border-radius: 10px;
@@ -50,36 +50,11 @@ st.markdown("""
         font-weight: bold;
     }
     
-    /* 1. Déchets alimentaires = Orange doux */
-    .double-alim {
-        background-color: #FFE0B2; 
-        border-left: 6px solid #FB8C00;
-        color: #E65100;
-    }
-    /* 2. Pain = Marron clair */
-    .double-pain {
-        background-color: #D7CCC8; 
-        border-left: 6px solid #8D6E63;
-        color: #4E342E;
-    }
-    /* 3. Fruits = Vert pomme */
-    .double-fruits {
-        background-color: #DCEDC8; 
-        border-left: 6px solid #7CB342;
-        color: #33691E;
-    }
-    /* 4. Emballages = Bleu ciel */
-    .double-emb {
-        background-color: #B3E5FC; 
-        border-left: 6px solid #039BE5;
-        color: #01579B;
-    }
-    /* 5. Serviettes = Violet très doux */
-    .double-serviettes {
-        background-color: #E1BEE7; 
-        border-left: 6px solid #8E24AA;
-        color: #4A148C;
-    }
+    .double-alim { background-color: #FFE0B2; border-left: 6px solid #FB8C00; color: #E65100; }
+    .double-pain { background-color: #D7CCC8; border-left: 6px solid #8D6E63; color: #4E342E; }
+    .double-fruits { background-color: #DCEDC8; border-left: 6px solid #7CB342; color: #33691E; }
+    .double-emb { background-color: #B3E5FC; border-left: 6px solid #039BE5; color: #01579B; }
+    .double-serviettes { background-color: #E1BEE7; border-left: 6px solid #8E24AA; color: #4A148C; }
 
     .valeur-texte {
         font-size: 20px;
@@ -116,24 +91,4 @@ st.markdown("""
     <h1 style="margin:0; color:#1B5E20;">🍏 Objectif Zéro Gâchis au Collège</h1>
     <h3 style="margin-top:5px; color:#33691E;">Mesure et quantification — 700 demi-pensionnaires (Vaucluse)</h3>
     <p style="margin-bottom:0; margin-top:10px; color:#37474F;">
-        Dans le cadre des <b>ODD (Objectifs de Développement Durable)</b>, notamment l'<b>ODD 12</b> (Consommation et production responsables), 
-        découvrez l'impact en temps réel de notre restaurant scolaire.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-total_nourriture = poids_alim + poids_pain + poids_fruits
-
-donnees_du_jour = {
-    "Catégorie": ["Déchets Alimentaires", "Pain", "Fruits Entamés", "Emballages", "Serviettes"],
-    "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes],
-    "Couleur_Ref": ["#FB8C00", "#8D6E63", "#7CB342", "#039BE5", "#8E24AA"]
-}
-df_jour = pd.DataFrame(donnees_du_jour)
-
-col1, col2 = st.columns([1, 1.2])
-
-with col1:
-    st.markdown(f"""
-    <div class="total-card">
-        <h3 style="margin:0; color:#B71C1C; font-size:20px; letter-spacing: 1px;">⚠️ TOTAL NO
+        Dans le cadre des <b>OD
