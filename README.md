@@ -2,72 +2,36 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Stop au Gaspillage Alimentaire</title>
+    <title>Saisie Déchets Cantine</title>
 </head>
 <body>
 
-    <h1>Stop au Gaspillage Alimentaire ! 🍏</h1>
-    <h3>Projet ODD - Collège du Vaucluse (700 demi-pensionnaires)</h3>
-    <p>Bienvenue sur notre application de suivi des déchets de la cantine.</p>
-
+    <h1>Stop au Gaspillage Alimentaire !</h1>
+    <p>Projet ODD - Collège du Vaucluse (700 demi-pensionnaires)</p>
+    
     <hr>
 
-    <div style="float: left; width: 45%; background-color: #f2f2f2; padding: 15px; border-radius: 8px;">
-        <h2 style="color: green; margin-top: 0;">📋 1. Saisie des données</h2>
-        <p>Remplissez les rectangles ci-dessous :</p>
-        
-        <p><b>🥖 Poubelle à Pain :</b><br>
-        <input type="text" placeholder="Poids en kg..."></p>
+    <h2>📊 Formulaire de Saisie des Pesées</h2>
+    <p>Entrez le poids en kilos ou en grammes sous chaque catégorie :</p>
 
-        <p><b>🍎 Déchets Alimentaires :</b><br>
-        <input type="text" placeholder="Poids en kg..."></p>
+    <p><b>🥖 Poubelle à Pain</b></p>
+    <input type="text" placeholder="Ex: 4 kg ou 4000 g">
 
-        <p><b>📦 Emballages :</b><br>
-        <input type="text" placeholder="Poids en kg..."></p>
+    <p><b>🍎 Déchets Alimentaires</b></p>
+    <input type="text" placeholder="Ex: 15.4 kg">
 
-        <p><b>🍏 Fruits Entamés :</b><br>
-        <input type="text" placeholder="Poids en kg..."></p>
+    <p><b>📦 Emballages</b></p>
+    <input type="text" placeholder="Ex: 2.1 kg">
 
-        <p><b>🧻 Serviettes Papiers :</b><br>
-        <input type="text" placeholder="Poids en kg..."></p>
-        
-        <br>
-        <input type="button" value="Enregistrer la pesée" style="padding: 8px; background-color: green; color: white; border: none; font-weight: bold; cursor: pointer;">
-    </div>
+    <p><b>🍏 Fruits Entamés</b></p>
+    <input type="text" placeholder="Ex: 1 kg">
 
-    <div style="float: right; width: 45%; background-color: #e8f5e9; padding: 15px; border-radius: 8px;">
-        <h2 style="color: green; margin-top: 0;">📊 2. Données marquées</h2>
-        <p>Voici les chiffres enregistrés pour l'établissement :</p>
-        
-        <table border="1" width="100%" cellpadding="8" style="background-color: white; border-collapse: collapse;">
-            <tr style="background-color: green; color: white;">
-                <th>Catégorie</th>
-                <th>Poids</th>
-            </tr>
-            <tr>
-                <td><b>🥖 Poubelle à Pain</b></td>
-                <td>---</td>
-            </tr>
-            <tr>
-                <td><b>🍎 Déchets Alimentaires</b></td>
-                <td>---</td>
-            </tr>
-            <tr>
-                <td><b>📦 Emballages</b></td>
-                <td>---</td>
-            </tr>
-            <tr>
-                <td><b>🍏 Fruits Entamés</b></td>
-                <td>---</td>
-            </tr>
-            <tr>
-                <td><b>🧻 Serviettes Papiers</b></td>
-                <td>---</td>
-            </tr>
-        </table>
-    </div>
+    <p><b>🧻 Serviettes Papiers</b></p>
+    <input type="text" placeholder="Ex: 300 g">
 
-    <div style="clear: both;"></div>
+    <br><br>
+    
+    <input type="button" value="Enregistrer la pesée du jour">
 
 </body>
 </html>
