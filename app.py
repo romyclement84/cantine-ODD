@@ -43,6 +43,7 @@ st.markdown("""
         align-items: center;
         font-weight: bold;
     }
+    /* Les couleurs de nos fiches en relief */
     .double-alim { background-color: #FFE0B2; border-left: 6px solid #FB8C00; color: #E65100; }
     .double-pain { background-color: #D7CCC8; border-left: 6px solid #8D6E63; color: #4E342E; }
     .double-fruits { background-color: #DCEDC8; border-left: 6px solid #7CB342; color: #33691E; }
@@ -86,54 +87,8 @@ st.markdown("""
 
 total_nourriture = poids_alim + poids_pain + poids_fruits
 
+# Préparation des données pour le graphique (avec une colonne Couleur)
 donnees_du_jour = {
     "Catégorie": ["Déchets Alimentaires", "Pain", "Fruits Entamés", "Emballages", "Serviettes"],
     "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes],
-    "Couleur_Ref": ["#FB8C00", "#8D6E63", "#7CB342", "#039BE5", "#8E24AA"]
-}
-df_jour = pd.DataFrame(donnees_du_jour)
-
-col1, col2 = st.columns([1, 1.2])
-
-with col1:
-    # 1. Total Rouge
-    st.markdown(f'<div class="total-card"><h3 style="margin:0; color:#B71C1C; font-size:20px;">⚠️ TOTAL NOURRITURE GASPILLÉE</h3><p style="font-size:52px; font-weight:bold; margin:10px 0; color:#D32F2F;">{total_nourriture:.2f} kg</p><small style="color:#C62828; font-weight:bold;">Alerte repas + pain + fruits</small></div>', unsafe_allow_html=True)
-    
-    # 2. Tableau multicolore
-    st.markdown('<div class="container-card"><h3 style="margin-top:0; margin-bottom:15px; color:#37474F; text-align:center;">📋 Zoom par type de déchet</h3><div class="poubelle-ligne double-alim"><span>🍲 Déchets Alimentaires</span><span class="valeur-texte">' + f'{poids_alim:.1f}' + ' kg</span></div><div class="poubelle-ligne double-pain"><span>🥖 Poubelle à Pain</span><span class="valeur-texte">' + f'{poids_pain:.1f}' + ' kg</span></div><div class="poubelle-ligne double-fruits"><span>🍎 Fruits entamés</span><span class="valeur-texte">' + f'{poids_fruits:.1f}' + ' kg</span></div><div class="poubelle-ligne double-emb"><span>📦 Emballages recyclables</span><span class="valeur-texte">' + f'{poids_emb:.1f}' + ' kg</span></div><div class="poubelle-ligne double-serviettes"><span>🧻 Serviettes en papier</span><span class="valeur-texte">' + f'{poids_serviettes:.1f}' + ' kg</span></div></div>', unsafe_allow_html=True)
-
-with col2:
-    st.markdown('<div class="container-card" style="background-color: #ffffff; height: 100%;">', unsafe_allow_html=True)
-    st.markdown('<h3 style="margin-top:0; color:#37474F; text-align:center;">📈 Visualisation Graphique</h3>', unsafe_allow_html=True)
-    st.bar_chart(data=df_jour, x="Catégorie", y="Poids (kg)", color="Couleur_Ref")
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# ==========================================
-# RECAPITULATIF ANNUEL (En dessous)
-# ==========================================
-st.write("---")
-
-st.markdown('<div class="container-card">', unsafe_allow_html=True)
-st.markdown('<h2 style="text-align:center; color:#2E7D32; margin-top:0;">📅 Récapitulatif Annuel de l\'Année Scolaire</h2>', unsafe_allow_html=True)
-st.write("Sélectionnez un mois pour analyser l'historique des données et voir les progrès du collège :")
-
-mois = ["Septembre", "Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin"]
-onglets = st.tabs(mois)
-
-for i, nom_du_mois in enumerate(mois):
-    with onglets[i]:
-        st.write("")
-        st.markdown(f"### 📊 Bilan de : **{nom_du_mois}**")
-        
-        c1, c2, c3 = st.columns(3)
-        with c1:
-            valeur_simulee = 25.4 + i
-            st.metric(label="Moyenne mensuelle", value=f"{valeur_simulee:.1f} kg/jour")
-        with c2:
-            eleves = 150 + (i*60)
-            if eleves > 700: eleves = 700
-            st.metric(label="Élèves impliqués", value=f"{eleves} / 700")
-        with c3:
-            st.info(f"💡 Objectif : Réduire le gâchis de 10% par rapport au mois précédent.")
-
-st.markdown('</div>', unsafe_allow_html=True)
+    "Couleur": ["#FB8C00", "#8D6E63", "#7CB342", "#039BE5", "#8E24AA"] # Exact
