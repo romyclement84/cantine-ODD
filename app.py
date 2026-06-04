@@ -1,39 +1,49 @@
 import streamlit as st
 import pandas as pd
 import datetime
+import plotly.express as px
 
 # 1. Configuration de la page
 st.set_page_config(page_title="Cantine Durable - ODD", page_icon="🍏", layout="wide")
 
-# Style CSS pour un festival de couleurs en relief
-st.markdown("""
+# Image de fond du collège (votre fichier téléversé sur GitHub)
+NOM_IMAGE_FOND = "image_4dd0dc.jpg" 
+
+# Injection du CSS pour le fond d'écran et la transparence
+st.markdown(f"""
     <style>
-    .header-card {
-        background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+    .stApp {{
+        background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url("app/static/{NOM_IMAGE_FOND}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }}
+    .header-card {{
+        background: linear-gradient(135deg, rgba(232, 245, 233, 0.9), rgba(200, 230, 201, 0.9));
         padding: 20px;
         border-radius: 15px;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         border: 1px solid #A5D6A7;
         margin-bottom: 20px;
-    }
-    .container-card {
-        background-color: #FAFAFA;
+    }}
+    .container-card {{
+        background-color: rgba(250, 250, 250, 0.9);
         padding: 20px;
         border-radius: 15px;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.12);
         border: 1px solid #E0E0E0;
         margin-bottom: 20px;
-    }
-    .total-card {
-        background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
+    }}
+    .total-card {{
+        background: linear-gradient(135deg, rgba(255, 235, 235, 0.95), rgba(255, 205, 210, 0.95));
         padding: 25px;
         border-radius: 15px;
         box-shadow: 0 8px 16px rgba(211, 47, 47, 0.2);
         border: 2px solid #EF9A9A;
         text-align: center;
         margin-bottom: 20px;
-    }
-    .poubelle-ligne {
+    }}
+    .poubelle-ligne {{
         padding: 14px;
         border-radius: 10px;
         margin-bottom: 10px;
@@ -42,13 +52,13 @@ st.markdown("""
         justify-content: space-between;
         align-items: center;
         font-weight: bold;
-    }
-    .double-alim { background-color: #FFE0B2; border-left: 6px solid #FB8C00; color: #E65100; }
-    .double-pain { background-color: #D7CCC8; border-left: 6px solid #8D6E63; color: #4E342E; }
-    .double-fruits { background-color: #DCEDC8; border-left: 6px solid #7CB342; color: #33691E; }
-    .double-emb { background-color: #B3E5FC; border-left: 6px solid #039BE5; color: #01579B; }
-    .double-serviettes { background-color: #E1BEE7; border-left: 6px solid #8E24AA; color: #4A148C; }
-    .valeur-texte { font-size: 20px; font-weight: bold; }
+    }}
+    .double-alim {{ background-color: rgba(255, 224, 178, 0.9); border-left: 6px solid #FB8C00; color: #E65100; }}
+    .double-pain {{ background-color: rgba(215, 204, 200, 0.9); border-left: 6px solid #8D6E63; color: #4E342E; }}
+    .double-fruits {{ background-color: rgba(220, 237, 200, 0.9); border-left: 6px solid #7CB342; color: #33691E; }}
+    .double-emb {{ background-color: rgba(179, 229, 252, 0.9); border-left: 6px solid #039BE5; color: #01579B; }}
+    .double-serviettes {{ background-color: rgba(225, 190, 231, 0.9); border-left: 6px solid #8E24AA; color: #4A148C; }}
+    .valeur-texte {{ font-size: 20px; font-weight: bold; }}
     </style>
 """, unsafe_allow_html=True)
 
@@ -86,36 +96,59 @@ st.markdown("""
 
 total_nourriture = poids_alim + poids_pain + poids_fruits
 
-donnees_du_jour = {
-    "Catégorie": ["Déchets Alimentaires", "Pain", "Fruits Entamés", "Emballages", "Serviettes"],
-    "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes],
-    "Couleur_Ref": ["#FB8C00", "#8D6E63", "#7CB342", "#039BE5", "#8E24AA"]
+# Préparation des données - Les noms ici doivent correspondre EXACTEMENT aux clés du dictionnaire de couleurs
+df_jour = pd.DataFrame({
+    "Catégorie": ["Déchets Alimentaires", "Poubelle à Pain", "Fruits entamés", "Emballages recyclables", "Serviettes en papier"], 
+    "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes]
+})
+
+# Association stricte et explicite des couleurs demandées
+palette_couleurs = {
+    "Déchets Alimentaires": "#FB8C00",      # Orange
+    "Poubelle à Pain": "#8D6E63",           # Marron
+    "Fruits entamés": "#7CB342",            # Vert
+    "Emballages recyclables": "#039BE5",    # Bleu
+    "Serviettes en papier": "#8E24AA"       # Violet
 }
-df_jour = pd.DataFrame(donnees_du_jour)
 
 col1, col2 = st.columns([1, 1.2])
 
 with col1:
-    # 1. Total Rouge
     st.markdown(f'<div class="total-card"><h3 style="margin:0; color:#B71C1C; font-size:20px;">⚠️ TOTAL NOURRITURE GASPILLÉE</h3><p style="font-size:52px; font-weight:bold; margin:10px 0; color:#D32F2F;">{total_nourriture:.2f} kg</p><small style="color:#C62828; font-weight:bold;">Alerte repas + pain + fruits</small></div>', unsafe_allow_html=True)
-    
-    # 2. Tableau multicolore
     st.markdown('<div class="container-card"><h3 style="margin-top:0; margin-bottom:15px; color:#37474F; text-align:center;">📋 Zoom par type de déchet</h3><div class="poubelle-ligne double-alim"><span>🍲 Déchets Alimentaires</span><span class="valeur-texte">' + f'{poids_alim:.1f}' + ' kg</span></div><div class="poubelle-ligne double-pain"><span>🥖 Poubelle à Pain</span><span class="valeur-texte">' + f'{poids_pain:.1f}' + ' kg</span></div><div class="poubelle-ligne double-fruits"><span>🍎 Fruits entamés</span><span class="valeur-texte">' + f'{poids_fruits:.1f}' + ' kg</span></div><div class="poubelle-ligne double-emb"><span>📦 Emballages recyclables</span><span class="valeur-texte">' + f'{poids_emb:.1f}' + ' kg</span></div><div class="poubelle-ligne double-serviettes"><span>🧻 Serviettes en papier</span><span class="valeur-texte">' + f'{poids_serviettes:.1f}' + ' kg</span></div></div>', unsafe_allow_html=True)
 
 with col2:
-    st.markdown('<div class="container-card" style="background-color: #ffffff; height: 100%;">', unsafe_allow_html=True)
+    st.markdown('<div class="container-card" style="background-color: rgba(255,255,255,0.9); height: 100%;">', unsafe_allow_html=True)
     st.markdown('<h3 style="margin-top:0; color:#37474F; text-align:center;">📈 Visualisation Graphique</h3>', unsafe_allow_html=True)
-    st.bar_chart(data=df_jour, x="Catégorie", y="Poids (kg)", color="Couleur_Ref")
+    
+    # Construction du graphique Plotly en forçant la carte des couleurs discrètes
+    fig = px.bar(
+        df_jour, 
+        x="Catégorie", 
+        y="Poids (kg)", 
+        color="Catégorie", 
+        color_discrete_map=palette_couleurs
+    )
+    
+    fig.update_layout(
+        showlegend=False, 
+        margin=dict(l=20, r=20, t=10, b=20), 
+        xaxis_title="", 
+        yaxis_title="Poids (en kg)", 
+        height=340, 
+        paper_bgcolor='rgba(0,0,0,0)', 
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ==========================================
-# RECAPITULATIF ANNUEL (En dessous)
+# RECAPITULATIF ANNUEL
 # ==========================================
 st.write("---")
-
 st.markdown('<div class="container-card">', unsafe_allow_html=True)
 st.markdown('<h2 style="text-align:center; color:#2E7D32; margin-top:0;">📅 Récapitulatif Annuel de l\'Année Scolaire</h2>', unsafe_allow_html=True)
-st.write("Sélectionnez un mois pour analyser l'historique des données et voir les progrès du collège :")
 
 mois = ["Septembre", "Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin"]
 onglets = st.tabs(mois)
@@ -124,15 +157,11 @@ for i, nom_du_mois in enumerate(mois):
     with onglets[i]:
         st.write("")
         st.markdown(f"### 📊 Bilan de : **{nom_du_mois}**")
-        
         c1, c2, c3 = st.columns(3)
         with c1:
-            valeur_simulee = 25.4 + i
-            st.metric(label="Moyenne mensuelle", value=f"{valeur_simulee:.1f} kg/jour")
+            st.metric(label="Moyenne mensuelle", value=f"{25.4 + i:.1f} kg/jour")
         with c2:
-            eleves = 150 + (i*60)
-            if eleves > 700: eleves = 700
-            st.metric(label="Élèves impliqués", value=f"{eleves} / 700")
+            st.metric(label="Élèves impliqués", value=f"{min(150 + (i*60), 700)} / 700")
         with c3:
             st.info(f"💡 Objectif : Réduire le gâchis de 10% par rapport au mois précédent.")
 
