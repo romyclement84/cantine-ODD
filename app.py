@@ -5,40 +5,55 @@ import datetime
 # 1. Configuration de la page
 st.set_page_config(page_title="Cantine Durable - ODD", page_icon="🍏", layout="wide")
 
-# Style CSS personnalisé pour le relief et le jaune pastel
+# Style CSS pour appliquer le relief (ombres) et le jaune pastel à TOUS les éléments
 st.markdown("""
     <style>
-    /* Style pour la grande carte du score total */
-    .total-card {
-        background-color: #FFF9C4; /* Jaune pastel */
+    /* Style global pour toutes les cartes en relief */
+    .custom-card {
+        background-color: #FFFDE7; /* Jaune pastel très clair */
         padding: 20px;
         border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Effet d'ombre/relief */
+        box-shadow: 0 6px 12px rgba(0,0,0,0.1); /* Relief prononcé */
+        border: 1px solid #FFF59D;
+        margin-bottom: 20px;
+    }
+    
+    /* Carte spéciale pour le total (jaune un peu plus soutenu) */
+    .total-card {
+        background-color: #FFF9C4; 
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.12); /* Gros relief pour le total */
         border: 1px solid #FFF59D;
         text-align: center;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
     }
-    /* Style pour les petites fiches de chaque poubelle */
-    .poubelle-card {
-        background-color: #FFFDE7; /* Jaune pastel très clair */
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Léger relief */
-        border-left: 5px solid #FBC02D; /* Barre jaune plus foncée sur le côté */
-        margin-bottom: 12px;
+    
+    /* Lignes de poubelles à l'intérieur de la carte jaune pastel */
+    .poubelle-ligne {
+        background-color: #ffffff;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Petit relief interne */
+        border-left: 5px solid #FBC02D;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
+    
     .poubelle-titre {
         font-weight: bold;
         color: #5D4037;
-        margin-bottom: 2px;
     }
+    
     .poubelle-valeur {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: bold;
         color: #F57F17;
     }
     </style>
-""", unsafe_index=False, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 
 # ==========================================
@@ -63,19 +78,20 @@ with st.sidebar:
 # ==========================================
 # PAGE PRINCIPALE (À droite)
 # ==========================================
-st.title("🍏 Objectif Zéro Gâchis au Collège")
-st.subheader("Mesure et quantification des déchets de notre cantine (700 demi-pensionnaires)")
-
+# En-tête principal en relief
 st.markdown("""
-Dans le cadre des **ODD (Objectifs de Développement Durable)**, notamment l'**ODD 12** (Consommation et production responsables), 
-nous suivons au jour le jour l'impact de notre restaurant scolaire.
-""")
-
-st.write("---")
+<div class="custom-card" style="background-color: #ffffff;">
+    <h1 style="margin:0; color:#2E7D32;">🍏 Objectif Zéro Gâchis au Collège</h1>
+    <h3 style="margin-top:5px; color:#558B2F;">Mesure et quantification — 700 demi-pensionnaires (Vaucluse)</h3>
+    <p style="margin-bottom:0; margin-top:10px; color:#616161;">
+        Dans le cadre des <b>ODD (Objectifs de Développement Durable)</b>, notamment l'<b>ODD 12</b> (Consommation et production responsables), 
+        nous suivons au jour le jour l'impact de notre restaurant scolaire pour sensibiliser toute la communauté.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 # Calculs des totaux
 total_nourriture = poids_alim + poids_pain + poids_fruits
-total_autres = poids_emb + poids_serviettes
 
 # Préparation des données pour le graphique
 donnees_du_jour = {
@@ -84,46 +100,49 @@ donnees_du_jour = {
 }
 df_jour = pd.DataFrame(donnees_du_jour)
 
-# Affichage des résultats en direct
-col1, col2 = st.columns([1, 1.2]) # La colonne du graphique est légèrement plus large
+# Séparation en deux colonnes pour les résultats
+col1, col2 = st.columns([1, 1.2])
 
 with col1:
-    st.header("📊 Résumé des Pesées")
-    
-    # Grand encadré en relief jaune pour le total
+    # 1. Bloc Total en gros relief jaune + écriture ROUGE vif
     st.markdown(f"""
     <div class="total-card">
-        <h3 style="margin:0; color:#5D4037;">Total Nourriture Gaspillée</h3>
-        <p style="font-size:36px; font-weight:bold; margin:10px 0; color:#E65100;">{total_nourriture:.2f} kg</p>
-        <small style="color:#795548;">(Repas + Pain + Fruits)</small>
+        <h3 style="margin:0; color:#5D4037; font-size:18px;">TOTAL NOURRITURE GASPILLÉE</h3>
+        <p style="font-size:46px; font-weight:bold; margin:10px 0; color:#D32F2F;">{total_nourriture:.2f} kg</p>
+        <small style="color:#795548; font-weight:bold;">(Repas + Pain + Fruits)</small>
     </div>
     """, unsafe_allow_html=True)
     
-    # Liste des poubelles en relief jaune pastel
+    # 2. Tableau en relief et en jaune pastel (Détails par poubelle)
     st.markdown(f"""
-    <div class="poubelle-card">
-        <div class="poubelle-titre">🍲 Déchets Alimentaires (assiettes)</div>
-        <div class="poubelle-valeur">{poids_alim:.1f} kg</div>
-    </div>
-    <div class="poubelle-card">
-        <div class="poubelle-titre">🥖 Poubelle à Pain</div>
-        <div class="poubelle-valeur">{poids_pain:.1f} kg</div>
-    </div>
-    <div class="poubelle-card">
-        <div class="poubelle-titre">🍎 Fruits entamés</div>
-        <div class="poubelle-valeur">{poids_fruits:.1f} kg</div>
-    </div>
-    <div class="poubelle-card">
-        <div class="poubelle-titre">📦 Emballages</div>
-        <div class="poubelle-valeur">{poids_emb:.1f} kg</div>
-    </div>
-    <div class="poubelle-card">
-        <div class="poubelle-titre">🧻 Serviettes en papier</div>
-        <div class="poubelle-valeur">{poids_serviettes:.1f} kg</div>
+    <div class="custom-card">
+        <h3 style="margin-top:0; margin-bottom:15px; color:#5D4037; text-align:center;">📋 Détail par Poubelle</h3>
+        <div class="poubelle-ligne">
+            <span class="poubelle-titre">🍲 Déchets Alimentaires</span>
+            <span class="poubelle-valeur">{poids_alim:.1f} kg</span>
+        </div>
+        <div class="poubelle-ligne">
+            <span class="poubelle-titre">🥖 Poubelle à Pain</span>
+            <span class="poubelle-valeur">{poids_pain:.1f} kg</span>
+        </div>
+        <div class="poubelle-ligne">
+            <span class="poubelle-titre">🍎 Fruits entamés</span>
+            <span class="poubelle-valeur">{poids_fruits:.1f} kg</span>
+        </div>
+        <div class="poubelle-ligne">
+            <span class="poubelle-titre">📦 Emballages</span>
+            <span class="poubelle-valeur">{poids_emb:.1f} kg</span>
+        </div>
+        <div class="poubelle-ligne">
+            <span class="poubelle-titre">🧻 Serviettes en papier</span>
+            <span class="poubelle-valeur">{poids_serviettes:.1f} kg</span>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
-    st.header("📈 Visualisation")
-    # Graphique en barres
-    st.bar_chart(data=df_jour, x="Catégorie", y="Poids (kg)", color="#FBC02D") # Barres jaunes/dorées pour s'accorder au thème
+    # 3. Bloc Graphique également intégré dans une carte en relief
+    st.markdown('<div class="custom-card" style="background-color: #ffffff; height: 100%;">', unsafe_allow_html=True)
+    st.markdown('<h3 style="margin-top:0; color:#5D4037; text-align:center;">📈 Graphique des Déchets</h3>', unsafe_allow_html=True)
+    st.bar_chart(data=df_jour, x="Catégorie", y="Poids (kg)", color="#FBC02D")
+    st.markdown('</div>', unsafe_allow_html=True)
