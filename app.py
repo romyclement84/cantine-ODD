@@ -5,42 +5,6 @@ import datetime
 # 1. Configuration de la page
 st.set_page_config(page_title="Cantine Durable - ODD", page_icon="🍏", layout="wide")
 
-# Style CSS personnalisé pour le relief, le jaune pastel et le ROUGE pour le total
-st.markdown("""
-    <style>
-    /* Style pour la grande carte du score total */
-    .total-card {
-        background-color: #FFF9C4; /* Jaune pastel */
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Effet d'ombre/relief */
-        border: 1px solid #FFF59D;
-        text-align: center;
-        margin-bottom: 25px;
-    }
-    /* Style pour les petites fiches de chaque poubelle */
-    .poubelle-card {
-        background-color: #FFFDE7; /* Jaune pastel très clair */
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Léger relief */
-        border-left: 5px solid #FBC02D; /* Barre jaune sur le côté */
-        margin-bottom: 12px;
-    }
-    .poubelle-titre {
-        font-weight: bold;
-        color: #5D4037;
-        margin-bottom: 2px;
-    }
-    .poubelle-valeur {
-        font-size: 20px;
-        font-weight: bold;
-        color: #F57F17;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-
 # ==========================================
 # COLONNE DE GAUCHE : Saisie des données
 # ==========================================
@@ -48,16 +12,59 @@ with st.sidebar:
     st.header("📝 Saisie des Pesées")
     st.write("Entrez les poids mesurés aujourd'hui :")
     
+    # Choix de la date (par défaut aujourd'hui)
     date_saisie = st.date_input("Date de la pesée", datetime.date.today())
-    st.markdown("---")
     
-    poids_alim = st.number_input("Déchets Alimentaires (en kg)", min_value=0.0, max_value=200.0, value=0.0, step=0.1)
-    poids_pain = st.number_input("Pain gaspillé (en kg)", min_value=0.0, max_value=100.0, value=0.0, step=0.1)
-    poids_fruits = st.number_input("Fruits entamés (en kg)", min_value=0.0, max_value=100.0, value=0.0, step=0.1)
-    poids_emb = st.number_input("Emballages (en kg)", min_value=0.0, max_value=50.0, value=0.0, step=0.1)
-    poids_serviettes = st.number_input("Serviettes papier (en kg)", min_value=0.0, max_value=50.0, value=0.0, step=0.1)
+    st.markdown("---") # Ligne de séparation
+    
+    # 1. Poubelle Déchets Alimentaires
+    poids_alim = st.number_input(
+        label="Déchets Alimentaires (en kg)", 
+        min_value=0.0, 
+        max_value=200.0, 
+        value=0.0, 
+        step=0.1,
+        help="Reste des assiettes (hors pain et fruits)"
+    )
+    
+    # 2. Poubelle Pain
+    poids_pain = st.number_input(
+        label="Pain gaspillé (en kg)", 
+        min_value=0.0, 
+        max_value=100.0, 
+        value=0.0, 
+        step=0.1
+    )
+    
+    # 3. Poubelle Fruits Entamés
+    poids_fruits = st.number_input(
+        label="Fruits entamés (en kg)", 
+        min_value=0.0, 
+        max_value=100.0, 
+        value=0.0, 
+        step=0.1
+    )
+    
+    # 4. Poubelle Emballages
+    poids_emb = st.number_input(
+        label="Emballages (en kg)", 
+        min_value=0.0, 
+        max_value=50.0, 
+        value=0.0, 
+        step=0.1
+    )
+    
+    # 5. Poubelle Serviettes Papier
+    poids_serviettes = st.number_input(
+        label="Serviettes papier (en kg)", 
+        min_value=0.0, 
+        max_value=50.0, 
+        value=0.0, 
+        step=0.1
+    )
 
-    st.success("Données mises à jour ! 🚀")
+    # Bouton pour valider (optionnel visuellement pour l'instant)
+    st.success("Données prises en compte à droite ! 🚀")
 
 
 # ==========================================
@@ -73,45 +80,26 @@ nous suivons au jour le jour l'impact de notre restaurant scolaire.
 
 st.write("---")
 
-# Calculs des totaux
-total_nourriture = poids_alim + poids_pain + poids_fruits
-
-# Préparation des données pour le graphique
+# Création d'un dictionnaire avec les données saisies à gauche pour les afficher directement
 donnees_du_jour = {
-    "Catégorie": ["Déchets Alimentaires", "Pain", "Fruits Entamés", "Emballages", "Serviettes"],
-    "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes]
+    "Catégorie de Poubelle": ["Déchets Alimentaires", "Pain", "Fruits Entamés", "Emballages", "Serviettes Papier"],
+    "Poids Saisi (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes]
 }
 df_jour = pd.DataFrame(donnees_du_jour)
 
 # Affichage des résultats en direct
-col1, col2 = st.columns([1, 1.2])
+col1, col2 = st.columns(2)
 
 with col1:
-    st.header("📊 Résumé des Pesées")
+    st.header("📊 Chiffres de la saisie actuelle")
+    # Calcul du total de nourriture (Alim + Pain + Fruits)
+    total_nourriture = poids_alim + poids_pain + poids_fruits
+    st.metric(label="Total Nourriture Gaspillée (Aujourd'hui)", value=f"{total_nourriture:.2f} kg")
     
-    # Grand encadré jaune avec le score écrit en ROUGE vif (#D32F2F)
-    st.markdown(f"""
-    <div class="total-card">
-        <h3 style="margin:0; color:#5D4037;">Total Nourriture Gaspillée</h3>
-        <p style="font-size:42px; font-weight:bold; margin:10px 0; color:#D32F2F;">{total_nourriture:.2f} kg</p>
-        <small style="color:#795548;">(Repas + Pain + Fruits)</small>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Liste des poubelles
-    st.markdown(f"""
-    <div class="poubelle-card">
-        <div class="poubelle-titre">🍲 Déchets Alimentaires (assiettes)</div>
-        <div class="poubelle-valeur">{poids_alim:.1f} kg</div>
-    </div>
-    <div class="poubelle-card">
-        <div class="poubelle-titre">🥖 Poubelle à Pain</div>
-        <div class="poubelle-valeur">{poids_pain:.1f} kg</div>
-    </div>
-    <div class="poubelle-card">
-        <div class="poubelle-titre">🍎 Fruits entamés</div>
-        <div class="poubelle-valeur">{poids_fruits:.1f} kg</div>
-    </div>
-    <div class="poubelle-card">
-        <div class="poubelle-titre">📦 Emballages</div>
-        <div class="poubelle-valeur">{p
+    # Tableau récapitulatif
+    st.dataframe(df_jour, use_container_width=True, hide_index=True)
+
+with col2:
+    st.header("📈 Répartition des déchets")
+    # Graphique en barres des données saisies à gauche
+    st.bar_chart(data=df_jour, x="Catégorie de Poubelle", y="Poids Saisi (kg)")
