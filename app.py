@@ -43,7 +43,6 @@ st.markdown("""
         align-items: center;
         font-weight: bold;
     }
-    /* Les couleurs de nos fiches en relief */
     .double-alim { background-color: #FFE0B2; border-left: 6px solid #FB8C00; color: #E65100; }
     .double-pain { background-color: #D7CCC8; border-left: 6px solid #8D6E63; color: #4E342E; }
     .double-fruits { background-color: #DCEDC8; border-left: 6px solid #7CB342; color: #33691E; }
@@ -85,10 +84,4 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-total_nourriture = poids_alim + poids_pain + poids_fruits
-
-# Préparation des données pour le graphique (avec une colonne Couleur)
-donnees_du_jour = {
-    "Catégorie": ["Déchets Alimentaires", "Pain", "Fruits Entamés", "Emballages", "Serviettes"],
-    "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes],
-    "Couleur": ["#FB8C00", "#8D6E63", "#7CB342", "#039BE5", "#8E24AA"] # Exact
+total
