@@ -1,37 +1,37 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Saisie Déchets Cantine</title>
-</head>
-<body>
+import streamlit as st
+import pandas as pd
 
-    <h1>Stop au Gaspillage Alimentaire !</h1>
-    <p>Projet ODD - Collège du Vaucluse (700 demi-pensionnaires)</p>
+# 1. Configuration de la page
+st.set_page_config(page_title="Cantine Durable - ODD", page_icon="🍏", layout="wide")
+
+# 2. Titre principal
+st.title("🍏 Objectif Zéro Gâchis au Collège")
+st.subheader("Mesure et quantification des déchets de notre cantine (Vaucluse)")
+
+# 3. Introduction et lien avec les ODD
+st.markdown("""
+Chaque jour, notre collège accueille **700 demi-pensionnaires**. Dans le cadre des **ODD (Objectifs de Développement Durable)**, 
+notre objectif est de réduire le gaspillage alimentaire (ODD 12 : Consommation et production responsables).
+""")
+
+# 4. Chargement des données (le fichier CSV)
+try:
+    df = pd.read_csv("donnees_cantine.csv")
     
-    <hr>
-
-    <h2>📊 Formulaire de Saisie des Pesées</h2>
-    <p>Entrez le poids en kilos ou en grammes sous chaque catégorie :</p>
-
-    <p><b>🥖 Poubelle à Pain</b></p>
-    <input type="text" placeholder="Ex: 4 kg ou 4000 g">
-
-    <p><b>🍎 Déchets Alimentaires</b></p>
-    <input type="text" placeholder="Ex: 15.4 kg">
-
-    <p><b>📦 Emballages</b></p>
-    <input type="text" placeholder="Ex: 2.1 kg">
-
-    <p><b>🍏 Fruits Entamés</b></p>
-    <input type="text" placeholder="Ex: 1 kg">
-
-    <p><b>🧻 Serviettes Papiers</b></p>
-    <input type="text" placeholder="Ex: 300 g">
-
-    <br><br>
+    # Affichage des chiffres clés
+    st.header("📊 Nos Chiffres Clés")
     
-    <input type="button" value="Enregistrer la pesée du jour">
+    # Calcul des totaux
+    total_nourriture = df["Dechets_Alimentaires"].sum() + df["Pain"].sum() + df["Fruits_Entames"].sum()
+    st.metric(label="Total Nourriture Gaspillée (kg)", value=f"{total_nourriture:.1f} kg")
+    
+    # Affichage du graphique
+    st.header("📈 Évolution des déchets sur la semaine")
+    st.line_chart(df.set_index("Date"))
+    
+    # Affichage du tableau brut pour transparence
+    st.header("📋 Données brutes")
+    st.dataframe(df)
 
-</body>
-</html>
+except Exception as e:
+    st.warning("En attente de l'importation du fichier 'donnees_cantine.csv' ou vérification du format.")
