@@ -6,22 +6,18 @@ import plotly.express as px
 # 1. Configuration de la page
 st.set_page_config(page_title="Cantine Durable - ODD", page_icon="🍏", layout="wide")
 
-# NOM DE VOTRE FICHIER IMAGE IMPORTÉ SUR GITHUB
-# (Assurez-vous de renommer votre image "college.jpg" sur GitHub ou de changer ce nom ici)
-NOM_IMAGE_FOND = "college.jpg" 
+# Image de fond du collège (nom du fichier téléversé sur GitHub)
+NOM_IMAGE_FOND = "image_4dd0dc.jpg" 
 
-# Injection du CSS pour le fond d'écran et la transparence des cartes
+# Injection du CSS pour le fond d'écran et la transparence
 st.markdown(f"""
     <style>
-    /* Application de l'image de fond locale sur tout le site */
     .stApp {{
         background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url("app/static/{NOM_IMAGE_FOND}");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
     }}
-    
-    /* Blocs légèrement transparents pour voir le collège en arrière-plan */
     .header-card {{
         background: linear-gradient(135deg, rgba(232, 245, 233, 0.9), rgba(200, 230, 201, 0.9));
         padding: 20px;
@@ -30,7 +26,6 @@ st.markdown(f"""
         border: 1px solid #A5D6A7;
         margin-bottom: 20px;
     }}
-    
     .container-card {{
         background-color: rgba(250, 250, 250, 0.9);
         padding: 20px;
@@ -39,7 +34,6 @@ st.markdown(f"""
         border: 1px solid #E0E0E0;
         margin-bottom: 20px;
     }}
-    
     .total-card {{
         background: linear-gradient(135deg, rgba(255, 235, 235, 0.95), rgba(255, 205, 210, 0.95));
         padding: 25px;
@@ -49,7 +43,6 @@ st.markdown(f"""
         text-align: center;
         margin-bottom: 20px;
     }}
-    
     .poubelle-ligne {{
         padding: 14px;
         border-radius: 10px;
@@ -103,13 +96,13 @@ st.markdown("""
 
 total_nourriture = poids_alim + poids_pain + poids_fruits
 
-# Préparation du tableau de données
+# Préparation des données
 df_jour = pd.DataFrame({
     "Catégorie": ["Déchets Alimentaires", "Pain", "Fruits Entamés", "Emballages", "Serviettes"], 
     "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes]
 })
 
-# Dictionnaire de correspondance exacte des couleurs pour le graphique Plotly
+# Association stricte des couleurs demandées
 palette_couleurs = {
     "Déchets Alimentaires": "#FB8C00",   # Orange
     "Pain": "#8D6E63",                  # Marron
@@ -121,38 +114,39 @@ palette_couleurs = {
 col1, col2 = st.columns([1, 1.2])
 
 with col1:
-    # 1. Total Rouge
     st.markdown(f'<div class="total-card"><h3 style="margin:0; color:#B71C1C; font-size:20px;">⚠️ TOTAL NOURRITURE GASPILLÉE</h3><p style="font-size:52px; font-weight:bold; margin:10px 0; color:#D32F2F;">{total_nourriture:.2f} kg</p><small style="color:#C62828; font-weight:bold;">Alerte repas + pain + fruits</small></div>', unsafe_allow_html=True)
-    
-    # 2. Tableau multicolore
     st.markdown('<div class="container-card"><h3 style="margin-top:0; margin-bottom:15px; color:#37474F; text-align:center;">📋 Zoom par type de déchet</h3><div class="poubelle-ligne double-alim"><span>🍲 Déchets Alimentaires</span><span class="valeur-texte">' + f'{poids_alim:.1f}' + ' kg</span></div><div class="poubelle-ligne double-pain"><span>🥖 Poubelle à Pain</span><span class="valeur-texte">' + f'{poids_pain:.1f}' + ' kg</span></div><div class="poubelle-ligne double-fruits"><span>🍎 Fruits entamés</span><span class="valeur-texte">' + f'{poids_fruits:.1f}' + ' kg</span></div><div class="poubelle-ligne double-emb"><span>📦 Emballages recyclables</span><span class="valeur-texte">' + f'{poids_emb:.1f}' + ' kg</span></div><div class="poubelle-ligne double-serviettes"><span>🧻 Serviettes en papier</span><span class="valeur-texte">' + f'{poids_serviettes:.1f}' + ' kg</span></div></div>', unsafe_allow_html=True)
 
 with col2:
     st.markdown('<div class="container-card" style="background-color: rgba(255,255,255,0.9); height: 100%;">', unsafe_allow_html=True)
     st.markdown('<h3 style="margin-top:0; color:#37474F; text-align:center;">📈 Visualisation Graphique</h3>', unsafe_allow_html=True)
     
-    # Création du graphique Plotly avec l'association stricte des couleurs demandées
-    fig = px.bar(
-        df_jour, 
-        x="Catégorie", 
-        y="Poids (kg)", 
-        color="Catégorie", 
-        color_discrete_map=palette_couleurs
-    )
-    
-    # Mise en page épurée
-    fig.update_layout(
-        showlegend=False,
-        margin=dict(l=20, r=20, t=10, b=20),
-        xaxis_title="",
-        yaxis_title="Poids (en kg)",
-        height=340,
-        paper_bgcolor='rgba(0,0,0,0)', 
-        plot_bgcolor='rgba(0,0,0,0)'
-    )
+    fig = px.bar(df_jour, x="Catégorie", y="Poids (kg)", color="Catégorie", color_discrete_map=palette_couleurs)
+    fig.update_layout(showlegend=False, margin=dict(l=20, r=20, t=10, b=20), xaxis_title="", yaxis_title="Poids (en kg)", height=340, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
     
     st.plotly_chart(fig, use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ==========================================
-# RE
+# RECAPITULATIF ANNUEL
+# ==========================================
+st.write("---")
+st.markdown('<div class="container-card">', unsafe_allow_html=True)
+st.markdown('<h2 style="text-align:center; color:#2E7D32; margin-top:0;">📅 Récapitulatif Annuel de l\'Année Scolaire</h2>', unsafe_allow_html=True)
+
+mois = ["Septembre", "Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin"]
+onglets = st.tabs(mois)
+
+for i, nom_du_mois in enumerate(mois):
+    with onglets[i]:
+        st.write("")
+        st.markdown(f"### 📊 Bilan de : **{nom_du_mois}**")
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            st.metric(label="Moyenne mensuelle", value=f"{25.4 + i:.1f} kg/jour")
+        with c2:
+            st.metric(label="Élèves impliqués", value=f"{min(150 + (i*60), 700)} / 700")
+        with c3:
+            st.info(f"💡 Objectif : Réduire le gâchis de 10% par rapport au mois précédent.")
+
+st.markdown('</div>', unsafe_allow_html=True)
