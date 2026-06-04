@@ -95,11 +95,10 @@ st.markdown("""
 
 total_nourriture = poids_alim + poids_pain + poids_fruits
 
-# Préparation des données avec une colonne "Couleur" lue nativement par Streamlit
+# Préparation du tableau ordonné
 df_jour = pd.DataFrame({
     "Catégorie": ["Déchets Alimentaires", "Poubelle à Pain", "Fruits entamés", "Emballages recyclables", "Serviettes en papier"], 
-    "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes],
-    "Couleur_Baton": ["#FB8C00", "#8D6E63", "#7CB342", "#039BE5", "#8E24AA"] # Orange, Marron, Vert, Bleu, Violet
+    "Poids (kg)": [poids_alim, poids_pain, poids_fruits, poids_emb, poids_serviettes]
 })
 
 col1, col2 = st.columns([1, 1.2])
@@ -112,12 +111,13 @@ with col2:
     st.markdown('<div class="container-card" style="background-color: rgba(255,255,255,0.9); height: 100%;">', unsafe_allow_html=True)
     st.markdown('<h3 style="margin-top:0; color:#37474F; text-align:center;">📈 Visualisation Graphique</h3>', unsafe_allow_html=True)
     
-    # Utilisation du graphique natif Streamlit qui attribue les couleurs de la colonne "Couleur_Baton"
+    # LA CORRECTION EST ICI : On force l'association en passant la liste exacte des couleurs dans l'ordre du tableau
     st.bar_chart(
         data=df_jour,
         x="Catégorie",
         y="Poids (kg)",
-        color="Couleur_Baton"
+        color="Catégorie",
+        color_discrete_sequence=["#FB8C00", "#8D6E63", "#7CB342", "#039BE5", "#8E24AA"]
     )
     st.markdown('</div>', unsafe_allow_html=True)
 
